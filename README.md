@@ -16,12 +16,15 @@ Setup
 
 Running
 -------
-`python script.py`
+Run in the project directory:
+
+    python script.py
 
 
 Options
 -------
 To get a list of every kudo and its date (User A --> User B, 4 months ago), add to `config.ini`:
+
     verbose = true
 
 Improvements
