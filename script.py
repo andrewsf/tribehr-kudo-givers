@@ -91,8 +91,8 @@ for userElem in userElems:
 
 	progress += 1
 
-	# Get progress percentage, output if crossing a 10% milestone. Don't show 100%.
-	percentMilestone = int(progress * 10 / userCount) * 10
+	# Get progress percentage, output if crossing a 5% milestone. Don't show 100%.
+	percentMilestone = int(progress * 20 / userCount) * 5
 	if percentMilestone > lastShownMilestone and percentMilestone < 100:
 		print '%s%% complete -- %s kudos tracked' % (percentMilestone, totalKudos)
 		lastShownMilestone = percentMilestone
