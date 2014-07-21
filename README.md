@@ -11,7 +11,7 @@ Setup
 4. Edit config.ini:
 	- subdomain (e.g., `lithium`)
     - username (e.g., `bob.barker@lithium.com`)
-    - API key (Go to http://SUBDOMAIN.lithium.com/users/me/ and click "Edit Profile")
+    - API key (Go to http://SUBDOMAIN.mytribehr.com/users/me/ and click "Edit Profile")
 
 
 Running
@@ -23,7 +23,7 @@ Run in the project directory:
 
 Options
 -------
-To get a list of every kudo and its date (User A --> User B, 4 months ago), add to `config.ini`:
+To get a lot more detailed information, like details about every user, including a list of every kudo and its date (User A --> User B, 4 months ago), add to `config.ini`:
 
     verbose = true
 

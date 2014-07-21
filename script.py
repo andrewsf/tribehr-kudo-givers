@@ -98,7 +98,11 @@ for userElem in userElems:
 		lastShownMilestone = percentMilestone
 
 print 'Done! %s kudos tracked in total.' % totalKudos
-
-
 print '%s users have no kudos! :(' % (len(userElems) - len(userKudosReceived))
+
+
+
+
 print ''
+
+
