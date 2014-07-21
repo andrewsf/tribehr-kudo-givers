@@ -1,7 +1,7 @@
 tribehr-kudo-givers
 ===================
 
-Get the number of kudos given by each user.
+Get the number of kudos given by each user on TribeHR. This is useful for things like manual badges that are based on the number of kudos given.
 
 Setup
 -----
