@@ -75,7 +75,7 @@ for userElem in userElems:
 	# Users with no kudos have one empty <note> element
 	if len(noteElems) <= 0 or noteElems[0].get('is_kudo') != '1':
 		if verbose:
-			print 'User', userElem.get('full_name'), 'has no kudos :('
+			print '%s has no kudos. :(' % userElem.get('full_name')
 		continue
 
 	userKudosReceived[userId] = len(noteElems)
@@ -83,7 +83,7 @@ for userElem in userElems:
 	for noteElem in noteElems:
 		posterElem = noteElem.find('poster')
 		if verbose:
-			print posterElem.get('full_name'), 'gave', noteElem.get('created'), 'to', userElem.get('full_name')
+			print '%s --> %s, %s' % (posterElem.get('full_name'), userElem.get('full_name'), noteElem.get('created'))
 
 		giver = noteElem.get('poster_id')
 		userKudosGiven[giver] = userKudosGiven.get(giver, 0) + 1
@@ -97,7 +97,7 @@ for userElem in userElems:
 		print '%s%% complete -- %s kudos tracked' % (percentMilestone, totalKudos)
 		lastShownMilestone = percentMilestone
 
-print 'Done! %s kudos tracked in total' % totalKudos
+print 'Done! %s kudos tracked in total.' % totalKudos
 
 
 print '%s users have no kudos! :(' % (len(userElems) - len(userKudosReceived))

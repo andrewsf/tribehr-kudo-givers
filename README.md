@@ -17,3 +17,13 @@ Setup
 Running
 -------
 `python script.py`
+
+
+Options
+-------
+To get a list of every kudo and its date (User A --> User B, 4 months ago), add to `config.ini`:
+    verbose = true
+
+Improvements
+------------
+This thing is super slow. That's because of Python's built-in `urllib2` module, which has hilariously terrible HTTP support. Switching to an external library like [requests](https://github.com/kennethreitz/requests) or [urllib3](https://github.com/shazow/urllib3) would be a great idea if I wanted to take on a third-party dependency.
