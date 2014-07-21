@@ -11,7 +11,7 @@ Setup
 4. `chmod +x script.py`
 5. Edit config.ini:
 	- subdomain (e.g., `lithium`)
-    - username (e.g., `bob.barker`)
+    - username (e.g., `bob.barker@lithium.com`)
     - API key (Go to http://SUBDOMAIN.lithium.com/users/me/ and click "Edit Profile")
 
 
