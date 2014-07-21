@@ -11,10 +11,16 @@ try:
 	subdomain = parser.get('Config', 'subdomain').strip()
 	username = parser.get('Config', 'username').strip()
 	apikey = parser.get('Config', 'apikey').strip()
-except ConfigParser.Error as e:
-	print 'Failed to read config:', e
+
+	try:
+		verbose = parser.get('Config', 'verbose').strip().lower() == 'true'
+	except ConfigParser.Error as e:
+		verbose = False
+
 except ConfigParser.NoOptionError as e:
 	print 'Option missing:', e
+except ConfigParser.Error as e:
+	print 'Failed to read config:', e
 	sys.exit(1)
 
 if not subdomain:
@@ -42,10 +48,57 @@ opener = urllib2.build_opener(auth_handler)
 urllib2.install_opener(opener)
 
 response = urllib2.urlopen(uriPrefix + 'users.xml')
-rootElem = ElementTree.parse(response).getroot()
+usersRootElem = ElementTree.parse(response).getroot()
 response.close()
 
-userElems = rootElem.findall('user')
-print 'Found', len(userElems), 'users'
+totalKudos = 0
+userKudosGiven = {}
+userKudosReceived = {}
+userUniqueKudosGiven = {}
+
+# Process users
+userElems = usersRootElem.findall('user')
+userCount = len(userElems)
+print 'Found', userCount, 'users. Getting kudos (this will take a while)...'
+
+progress = 0
+lastShownMilestone = 0
 for userElem in userElems:
-	print userElem.get('id'), ':', userElem.get('full_name')
+	userId = userElem.get('id')
+	response = urllib2.urlopen(uriPrefix + 'users/' + userId + '/kudos.xml')
+	notesRootElem = ElementTree.parse(response).getroot()
+	response.close()
+
+	# Process kudos
+	noteElems = notesRootElem.findall('note')
+
+	# Users with no kudos have one empty <note> element
+	if len(noteElems) <= 0 or noteElems[0].get('is_kudo') != '1':
+		if verbose:
+			print 'User', userElem.get('full_name'), 'has no kudos :('
+		continue
+
+	userKudosReceived[userId] = len(noteElems)
+
+	for noteElem in noteElems:
+		posterElem = noteElem.find('poster')
+		if verbose:
+			print posterElem.get('full_name'), 'gave', noteElem.get('created'), 'to', userElem.get('full_name')
+
+		giver = noteElem.get('poster_id')
+		userKudosGiven[giver] = userKudosGiven.get(giver, 0) + 1
+		totalKudos += 1
+
+	progress += 1
+
+	# Get progress percentage, output if crossing a 10% milestone. Don't show 100%.
+	percentMilestone = int(progress * 10 / userCount) * 10
+	if percentMilestone > lastShownMilestone and percentMilestone < 100:
+		print '%s%% complete -- %s kudos tracked' % (percentMilestone, totalKudos)
+		lastShownMilestone = percentMilestone
+
+print 'Done! %s kudos tracked in total' % totalKudos
+
+
+print '%s users have no kudos! :(' % (len(userElems) - len(userKudosReceived))
+print ''
